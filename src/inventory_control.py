@@ -27,18 +27,31 @@ class InventoryControl:
             'frango': 0,
         }
         self._out_of_stock = set()
+        self._avaible_meals = {'hamburguer', 'pizza', 'misto-quente', 'coxinha'}
 
     def add_new_order(self, customer, order, day):
         self._orders.append((customer, order, day))
-        ingredient_out_of_stock = set(self.INGREDIENTS).intersection(self._out_of_stock)
+        ingredient_out_of_stock = set(
+            self.INGREDIENTS).intersection(self._out_of_stock)
         if len(ingredient_out_of_stock) == 0:
             for ingridient in self.INGREDIENTS[order]:
                 self._buy_list[ingridient] += 1
-                current_stock = self.MINIMUM_INVENTORY[ingridient] - self._buy_list[ingridient]
+                current_stock = self.MINIMUM_INVENTORY[ingridient] - \
+                    self._buy_list[ingridient]
                 if current_stock <= 0:
                     self._out_of_stock.add(ingridient)
             return False
 
-
     def get_quantities_to_buy(self):
         return self._buy_list
+
+    def get_available_dishes(self):
+        available_meals = self._avaible_meals
+        removed_meal = set()
+        for meal in self._avaible_meals:
+            for ingredient in self.INGREDIENTS[meal]:
+                if ingredient in self._out_of_stock:
+                    removed_meal.add(meal)
+                    break
+        self._avaible_meals = available_meals - removed_meal
+        return self._avaible_meals
