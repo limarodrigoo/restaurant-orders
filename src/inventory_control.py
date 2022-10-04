@@ -27,7 +27,8 @@ class InventoryControl:
             'frango': 0,
         }
         self._out_of_stock = set()
-        self._avaible_meals = {'hamburguer', 'pizza', 'misto-quente', 'coxinha'}
+        self._avaible_meals = {'hamburguer',
+                               'pizza', 'misto-quente', 'coxinha'}
 
     def add_new_order(self, customer, order, day):
         self._orders.append((customer, order, day))
