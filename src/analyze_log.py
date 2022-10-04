@@ -29,7 +29,7 @@ def analyze_log(path_to_file):
 
 def most_ordered_by_client(list, client):
     orders = Counter(order for name, order, _ in list if name == client)
-    return max(orders, key=orders.get)
+    return orders.most_common(1)[0][0]
 
 
 def order_by_client_meal(list, order, client):
