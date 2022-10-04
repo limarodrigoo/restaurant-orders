@@ -15,7 +15,7 @@ class TrackOrders:
         orders = Counter(
             order for name, order, _ in self._orders if name == customer
         )
-        return max(orders, key=orders.get)
+        return orders.most_common(1)[0][0]
 
     def get_never_ordered_per_customer(self, customer):
         all_orders = set(order for _, order, _ in self._orders)
